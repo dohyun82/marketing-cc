@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/dohyun/.claude/**)",
+      "mcp__serena__activate_project",
+      "Bash(cat:*)",
+      "Bash(claude --version)",
+      "Bash(claude health-check)",
+      "mcp__atlassian__getConfluencePage",
+      "mcp__atlassian__getJiraIssue",
+      "mcp__figma-dev-mode-mcp-server__get_metadata",
+      "mcp__figma-dev-mode-mcp-server__get_code",
+      "mcp__morphllm-fast-apply__create_directory",
+      "Bash(mkdir:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "atlassian",
+    "figma-dev-mode-mcp-server"
+  ],
+  "outputStyle": "Explanatory"
+}
