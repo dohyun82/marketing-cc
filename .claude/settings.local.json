@@ -12,7 +12,8 @@
       "mcp__figma-dev-mode-mcp-server__get_code",
       "mcp__morphllm-fast-apply__create_directory",
       "Bash(mkdir:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(python3:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

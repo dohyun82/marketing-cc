@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>복권 긁기 이벤트</title>
+    <meta name="description" content="마케팅 이벤트 - 복권을 긁어서 상품을 받아보세요!">
+    
+    <!-- CSS 파일들 -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Preload 중요 리소스 -->
+    <link rel="preload" href="assets/images/scratch-bg.png" as="image">
+    <link rel="preload" href="assets/images/scratch-overlay.png" as="image">
+</head>
+<body>
+    <!-- 메인 게임 컨테이너 -->
+    <div id="game-container">
+        <!-- 로딩 화면 -->
+        <div id="loading-screen" class="screen">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">이벤트를 준비하고 있어요...</p>
+            </div>
+        </div>
+        
+        <!-- 게임 화면 -->
+        <div id="game-screen" class="screen hidden">
+            <header class="game-header">
+                <h1 class="event-title">복권 긁기 이벤트</h1>
+                <p class="event-description">아래 복권을 손가락으로 긁어보세요!</p>
+            </header>
+            
+            <main class="game-main">
+                <div class="canvas-container">
+                    <canvas id="scratch-canvas"></canvas>
+                    <div class="scratch-guide">
+                        <p>↑ 손가락으로 긁어보세요</p>
+                    </div>
+                </div>
+                
+                <div class="game-info">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <p class="progress-text">진행률: 0%</p>
+                </div>
+            </main>
+        </div>
+        
+        <!-- 에러 화면 -->
+        <div id="error-screen" class="screen hidden">
+            <div class="error-content">
+                <div class="error-icon">❌</div>
+                <h2 class="error-title">오류가 발생했습니다</h2>
+                <p class="error-message"></p>
+                <button class="retry-button" onclick="location.reload()">다시 시도</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 결과 모달 -->
+    <div id="result-modal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="result-content">
+                <div class="result-icon">🎉</div>
+                <div class="result-title">축하합니다!</div>
+                <div class="result-reward">1만원 상품권</div>
+            </div>
+            <button class="confirm-button">확인</button>
+        </div>
+    </div>
+    
+    <!-- JavaScript 파일들 -->
+    <script src="js/config.js"></script>
+    
+    <!-- 유틸리티 클래스들 -->
+    <script src="js/utils/Logger.js"></script>
+    <script src="js/utils/DeviceDetector.js"></script>
+    
+    <!-- 브릿지 시스템 -->
+    <script src="js/bridge/MockBridge.js"></script>
+    <script src="js/bridge/EventBridge.js"></script>
+    
+    <!-- 게임 엔진 -->
+    <script src="js/game/CanvasRenderer.js"></script>
+    <script src="js/game/TouchHandler.js"></script>
+    <script src="js/game/ScratchGame.js"></script>
+    
+    <!-- 메인 애플리케이션 -->
+    <script src="js/main.js"></script>
+</body>
+</html>

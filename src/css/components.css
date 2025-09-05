@@ -1,0 +1,297 @@
+/* UI 컴포넌트 스타일 */
+
+/* 모달 스타일 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  position: relative;
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 320px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.modal:not(.hidden) .modal-content {
+  transform: scale(1);
+}
+
+/* 결과 모달 */
+.result-content {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.result-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: bounce 2s infinite;
+}
+
+.result-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.result-reward {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #4CAF50;
+  background: linear-gradient(135deg, #E8F5E8, #F1F8E9);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 2px solid #4CAF50;
+}
+
+.result-value {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+.confirm-button {
+  width: 100%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+}
+
+.confirm-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.confirm-button:active {
+  transform: translateY(0);
+}
+
+/* 버튼 스타일 */
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+button:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* 진행률 바 개선 */
+.progress-bar {
+  position: relative;
+  width: 100%;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A, #CDDC39);
+  width: 0%;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 6px;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, 
+    transparent 25%, 
+    rgba(255, 255, 255, 0.2) 25%, 
+    rgba(255, 255, 255, 0.2) 50%, 
+    transparent 50%, 
+    transparent 75%, 
+    rgba(255, 255, 255, 0.2) 75%);
+  background-size: 20px 20px;
+  animation: progress-stripe 1s linear infinite;
+}
+
+.progress-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0.9;
+  text-align: center;
+}
+
+/* 스크래치 가이드 개선 */
+.scratch-guide {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+  text-align: center;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.scratch-guide p {
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 터치 피드백 */
+.canvas-container {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.canvas-container:active {
+  transform: scale(0.98);
+}
+
+#scratch-canvas {
+  display: block;
+  border-radius: 20px;
+  cursor: pointer;
+  touch-action: none;
+  transition: filter 0.3s ease;
+}
+
+#scratch-canvas:hover {
+  filter: brightness(1.05);
+}
+
+/* 로딩 스피너 개선 */
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  border-top-color: white;
+  margin: 0 auto 2rem;
+  animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+.loading-text {
+  font-size: 1.125rem;
+  font-weight: 500;
+  opacity: 0.9;
+  margin: 0;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* 에러 화면 개선 */
+.error-content {
+  text-align: center;
+  max-width: 300px;
+  animation: shake 0.5s ease-in-out;
+}
+
+.error-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.retry-button {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.retry-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+/* 게임 헤더 개선 */
+.game-header {
+  text-align: center;
+  color: white;
+  margin-bottom: 2rem;
+  flex-shrink: 0;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.event-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(45deg, #fff, #f0f8ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.event-description {
+  font-size: 1rem;
+  opacity: 0.9;
+  font-weight: 400;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 게임 정보 영역 */
+.game-info {
+  width: 100%;
+  max-width: 300px;
+  color: white;
+  text-align: center;
+  animation: fadeInUp 0.8s ease-out 0.3s both;
+}
