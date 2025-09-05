@@ -11,7 +11,8 @@
       "mcp__figma-dev-mode-mcp-server__get_metadata",
       "mcp__figma-dev-mode-mcp-server__get_code",
       "mcp__morphllm-fast-apply__create_directory",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(git reset:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
