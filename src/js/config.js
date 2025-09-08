@@ -92,9 +92,20 @@ try {
     CONFIG.UI.LOADING_MIN_TIME = 500;    // 빠른 테스트
   }
 
-  // 디바이스별 설정 조정 (민감도 최적화)
+  // 웹뷰 환경 감지 및 최적화 설정
   if (typeof navigator !== 'undefined' && navigator.userAgent) {
-    if (navigator.userAgent.includes('iPhone') || navigator.userAgent.includes('iPad')) {
+    // 웹뷰 환경 확인
+    const isWebView = /wv.*\).+chrome|Android.*version.*safari|iPhone.*applewebkit.*version.*safari/i.test(navigator.userAgent) ||
+                     (window.ReactNativeWebView !== undefined) ||
+                     (window.webkit && window.webkit.messageHandlers);
+    
+    if (isWebView) {
+      // 웹뷰 전용 최적화 설정
+      CONFIG.PERFORMANCE.TOUCH_THROTTLE = 2; // 더 민감한 터치 반응
+      CONFIG.GAME.TOUCH_RADIUS = 50; // 웹뷰에서 더 큰 터치 영역
+      CONFIG.GAME.MIN_SCRATCH_AREA = 40; // 최소 스크래치 영역 축소
+      CONFIG.PERFORMANCE.PROGRESS_CHECK_INTERVAL = 30; // 더 빈번한 진행률 체크
+    } else if (navigator.userAgent.includes('iPhone') || navigator.userAgent.includes('iPad')) {
       // iOS 최적화 (더 민감하게)
       CONFIG.PERFORMANCE.TOUCH_THROTTLE = 3;
       CONFIG.GAME.TOUCH_RADIUS = 40; // iOS에서 더 큰 터치 영역

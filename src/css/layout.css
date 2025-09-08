@@ -185,15 +185,17 @@
   transform: translate(-50%, -50%);
   z-index: 3;
   pointer-events: none;
-  width: 100%;
+  width: calc(100% - var(--spacing-md));
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0 var(--spacing-sm);
+  box-sizing: border-box;
 }
 
 .scratch-guide p {
   font-family: var(--font-family-primary);
-  font-size: calc(var(--font-size-body-medium) * 2);
+  font-size: calc(var(--font-size-body-medium) * 1.8);
   font-weight: var(--font-weight-semibold);
   color: var(--color-primary-text);
   text-align: center;
@@ -208,6 +210,9 @@
   -moz-osx-font-smoothing: grayscale;
   white-space: nowrap;
   position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: visible;
 }
 
 /* 스크래치 진행에 따른 가이드 텍스트 페이드아웃 */
@@ -233,7 +238,7 @@
   height: 8px !important;
   background-color: #EDEDF2 !important;
   background: #EDEDF2 !important;
-  margin: var(--spacing-xl) calc(50% - 50vw) !important;
+  margin: var(--spacing-xl) 0 !important;
   display: block !important;
   position: relative !important;
   z-index: 10 !important;
@@ -244,6 +249,7 @@
   right: 50%;
   margin-left: -50vw !important;
   margin-right: -50vw !important;
+  transform: translateX(-50%);
 }
 
 .notice-section {
@@ -393,12 +399,14 @@
 }
 
 .webview-mode .content-separator {
-  width: 100% !important;
-  margin-left: calc(var(--spacing-layout-xs) * -1) !important;
-  margin-right: calc(var(--spacing-layout-xs) * -1) !important;
-  left: auto !important;
-  right: auto !important;
+  width: 100vw !important;
+  margin: var(--spacing-xl) 0 !important;
   position: relative !important;
+  left: 50% !important;
+  right: 50% !important;
+  margin-left: -50vw !important;
+  margin-right: -50vw !important;
+  transform: none !important;
 }
 
 /* iOS 웹뷰 특별 처리 */
@@ -414,21 +422,29 @@
 
 /* 웹뷰에서 스크래치 가이드 완벽 중앙 정렬 */
 .webview-mode .scratch-guide {
-  width: 100% !important;
+  width: calc(100% - var(--spacing-lg)) !important;
   left: 50% !important;
   right: auto !important;
   text-align: center !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
+  padding: 0 var(--spacing-md) !important;
+  box-sizing: border-box !important;
+  max-width: var(--canvas-width) !important;
 }
 
 .webview-mode .scratch-guide p {
   text-align: center !important;
   width: 100% !important;
   margin: 0 auto !important;
-  padding: 0 !important;
+  padding: 0 var(--spacing-xs) !important;
   position: static !important;
+  font-size: var(--font-size-body-large) !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
 }
 
 /* 반응형 레이아웃 */

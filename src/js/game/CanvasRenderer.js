@@ -173,10 +173,20 @@ class CanvasRenderer {
     
     const scratchCtx = this.scratchSurface.getContext('2d');
     
-    // 픽셀 비율 조정 및 감도 개선을 위한 반경 확대
-    const scaledX = x * this.pixelRatio;
-    const scaledY = y * this.pixelRatio;
-    const scaledRadius = radius * this.pixelRatio * 1.5; // 1.5배 확대로 더 민감하게
+    // 웹뷰 환경에서는 픽셀 비율 고려 좀더 세밀하게 처리
+    let scaledX, scaledY, scaledRadius;
+    
+    if (document.body.classList.contains('webview-mode')) {
+      // 웹뷰에서는 좌표가 이미 Canvas 좌표계이므로 pixelRatio 적용
+      scaledX = x * this.pixelRatio;
+      scaledY = y * this.pixelRatio;
+      scaledRadius = radius * this.pixelRatio * 2.0; // 웹뷰에서 더 큰 반경 사용
+    } else {
+      // 일반 브라우저에서는 기존 로직 사용
+      scaledX = x * this.pixelRatio;
+      scaledY = y * this.pixelRatio;
+      scaledRadius = radius * this.pixelRatio * 1.5;
+    }
     
     // 스크래치 영역을 투명하게 만들기
     scratchCtx.globalCompositeOperation = 'destination-out';

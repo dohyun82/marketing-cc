@@ -317,15 +317,22 @@ class TouchHandler {
   getTouchCoordinates(touch) {
     const rect = this.canvas.getBoundingClientRect();
     
-    // 웹뷰 환경에서는 간단한 좌표 계산 사용
+    // 웹뷰 환경에서는 Canvas 실제 좌표계에 맞춰 계산
     if (document.body.classList.contains('webview-mode')) {
-      const x = (touch.clientX - rect.left) * (this.canvas.offsetWidth / rect.width);
-      const y = (touch.clientY - rect.top) * (this.canvas.offsetHeight / rect.height);
+      // 클라이언트 좌표를 Canvas 좌표계로 직접 변환
+      const x = (touch.clientX - rect.left) * (this.canvas.width / rect.width) / window.devicePixelRatio;
+      const y = (touch.clientY - rect.top) * (this.canvas.height / rect.height) / window.devicePixelRatio;
       
       Logger.logIf(CONFIG?.DEBUG?.SHOW_TOUCH_DEBUG, 'debug', 'WebView touch coordinates:', {
         client: { x: touch.clientX, y: touch.clientY },
         rect: { left: rect.left, top: rect.top, width: rect.width, height: rect.height },
-        canvas: { width: this.canvas.offsetWidth, height: this.canvas.offsetHeight },
+        canvas: { 
+          actualWidth: this.canvas.width, 
+          actualHeight: this.canvas.height,
+          displayWidth: rect.width,
+          displayHeight: rect.height,
+          pixelRatio: window.devicePixelRatio
+        },
         result: { x, y }
       });
       
@@ -346,10 +353,11 @@ class TouchHandler {
   getMouseCoordinates(event) {
     const rect = this.canvas.getBoundingClientRect();
     
-    // 웹뷰 환경에서는 간단한 좌표 계산 사용
+    // 웹뷰 환경에서는 Canvas 실제 좌표계에 맞춰 계산
     if (document.body.classList.contains('webview-mode')) {
-      const x = (event.clientX - rect.left) * (this.canvas.offsetWidth / rect.width);
-      const y = (event.clientY - rect.top) * (this.canvas.offsetHeight / rect.height);
+      // 클라이언트 좌표를 Canvas 좌표계로 직접 변환
+      const x = (event.clientX - rect.left) * (this.canvas.width / rect.width) / window.devicePixelRatio;
+      const y = (event.clientY - rect.top) * (this.canvas.height / rect.height) / window.devicePixelRatio;
       
       return { x, y };
     }
