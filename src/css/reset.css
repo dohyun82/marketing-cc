@@ -113,11 +113,19 @@ canvas {
   }
 }
 
-/* 모바일 사파리 주소창 숨김 대응 */
+/* 모바일 사파리 주소창 숨김 대응 - 웹뷰 제외 */
 @supports (padding: max(0px)) {
-  body {
+  body:not(.webview-mode) {
     padding-left: max(12px, env(safe-area-inset-left));
     padding-right: max(12px, env(safe-area-inset-right));
+  }
+  
+  /* 웹뷰에서는 Safe Area 패딩 강제 제거 */
+  body.webview-mode {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 }
 

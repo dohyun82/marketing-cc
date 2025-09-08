@@ -19,11 +19,21 @@
     max-height: 55vh;
   }
   
+  /* 웹뷰에서는 vw 계산 오류 방지 */
+  .webview-mode .canvas-container {
+    max-width: calc(100% - 40px);
+  }
+  
   #scratch-canvas {
     width: 280px;
     height: 373px;
     max-width: calc(100vw - 40px);
     max-height: 55vh;
+  }
+  
+  /* 웹뷰에서는 vw 계산 오류 방지 */
+  .webview-mode #scratch-canvas {
+    max-width: calc(100% - 40px);
   }
 }
 
@@ -363,6 +373,34 @@
   #scratch-canvas {
     transition: none;
   }
+}
+
+/* ===== 웹뷰 전용 반응형 수정 ===== */
+.webview-mode .canvas-container {
+  max-width: calc(100% - var(--spacing-layout-xs) * 2) !important;
+}
+
+.webview-mode #scratch-canvas {
+  max-width: calc(100% - var(--spacing-layout-xs) * 2) !important;
+}
+
+/* 웹뷰에서 가로 스크롤 완전 차단 */
+.webview-mode * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.webview-mode body,
+.webview-mode html {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.webview-mode #game-container {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 /* 접근성: 모션 감소 선호 */

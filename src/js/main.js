@@ -22,6 +22,9 @@
     try {
       Logger.info('Application initializing...');
       
+      // 웹뷰 환경 감지 및 처리 (우선 실행)
+      detectAndHandleWebViewEnvironment();
+      
       // 설정 유효성 검사
       validateConfiguration();
       
@@ -38,6 +41,85 @@
       Logger.error('Application initialization failed:', error);
       showCriticalError('애플리케이션 초기화에 실패했습니다.', error.message);
     }
+  }
+  
+  /**
+   * 웹뷰 환경 감지 및 처리
+   * @private
+   */
+  function detectAndHandleWebViewEnvironment() {
+    try {
+      const userAgent = navigator.userAgent;
+      let isWebView = false;
+      let webViewType = 'unknown';
+      
+      // iOS 웹뷰 감지
+      if (/Version.*Mobile.*Safari/i.test(userAgent) && !/CriOS|FxiOS|OPiOS/i.test(userAgent)) {
+        // iOS Safari 내 웹뷰 (UIWebView, WKWebView)
+        isWebView = true;
+        webViewType = 'ios-webview';
+      }
+      
+      // Android 웹뷰 감지
+      if (/wv|webview/i.test(userAgent)) {
+        isWebView = true;
+        webViewType = 'android-webview';
+      }
+      
+      // 추가적인 웹뷰 감지 (더 정교한 방법)
+      if (!isWebView) {
+        // 앱 내 웹뷰에서는 일부 API가 제한될 수 있음
+        const hasAppFeatures = 
+          window.webkit?.messageHandlers ||  // iOS 웹뷰 메시지 핸들러
+          window.EventBridge ||              // 커스텀 브릿지
+          window.Android;                    // Android 자바스크립트 인터페이스
+        
+        if (hasAppFeatures) {
+          isWebView = true;
+          webViewType = 'app-webview';
+        }
+      }
+      
+      if (isWebView) {
+        // body에 웹뷰 클래스 추가
+        document.body.classList.add('webview-mode');
+        document.body.classList.add(`webview-${webViewType}`);
+        
+        Logger.info('WebView environment detected:', {
+          type: webViewType,
+          userAgent: userAgent
+        });
+        
+        // 웹뷰 전용 설정 적용
+        applyWebViewConfiguration();
+      } else {
+        Logger.info('Standard browser environment detected');
+      }
+      
+    } catch (error) {
+      Logger.error('WebView detection failed:', error);
+      // 실패 시 안전하게 웹뷰 모드로 처리
+      document.body.classList.add('webview-mode', 'webview-fallback');
+    }
+  }
+  
+  /**
+   * 웹뷰 전용 설정 적용
+   * @private
+   */
+  function applyWebViewConfiguration() {
+    // 웹뷰에서는 일부 브라우저 기능 비활성화
+    if (CONFIG.DEBUG) {
+      CONFIG.DEBUG.SHOW_PERFORMANCE = false; // 성능 로그 최소화
+      CONFIG.UI.LOADING_MIN_TIME = 500;      // 빠른 로딩
+    }
+    
+    // 웹뷰에서 터치 이벤트 최적화
+    if (CONFIG.PERFORMANCE) {
+      CONFIG.PERFORMANCE.TOUCH_THROTTLE = 3; // 더 민감한 터치 반응
+    }
+    
+    Logger.info('WebView configuration applied');
   }
   
   /**

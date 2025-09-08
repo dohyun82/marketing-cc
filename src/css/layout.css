@@ -345,6 +345,59 @@
   transform: translateY(-2px);
 }
 
+/* ===== 웹뷰 전용 스타일 ===== */
+.webview-mode #game-container {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  min-height: 100vh !important;
+}
+
+.webview-mode .canvas-container {
+  max-width: calc(100% - 32px) !important;
+  width: 100% !important;
+}
+
+.webview-mode #scratch-canvas {
+  max-width: calc(100% - 32px) !important;
+  width: auto !important;
+}
+
+.webview-mode .game-main {
+  padding-left: var(--spacing-layout-xs);
+  padding-right: var(--spacing-layout-xs);
+}
+
+.webview-mode .title-section,
+.webview-mode .scratch-section {
+  max-width: 100%;
+  width: 100%;
+  padding: 0;
+}
+
+.webview-mode .notice-section {
+  max-width: 100%;
+}
+
+.webview-mode .content-separator {
+  margin-left: calc(var(--spacing-layout-xs) * -1);
+  margin-right: calc(var(--spacing-layout-xs) * -1);
+  width: calc(100% + var(--spacing-layout-xs) * 2) !important;
+}
+
+/* iOS 웹뷰 특별 처리 */
+.webview-ios-webview #game-container {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden !important;
+}
+
+/* Android 웹뷰 특별 처리 */
+.webview-android-webview #game-container {
+  overflow-x: hidden !important;
+}
+
 /* 반응형 레이아웃 */
 @media (max-width: 375px) {
   .game-header {
