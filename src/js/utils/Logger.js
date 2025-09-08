@@ -199,12 +199,12 @@ class Logger {
 if (window.CONFIG?.DEBUG?.ENABLED) {
   window.Logger = Logger;
   
-  // 페이지 언로드시 로그 내보내기 (옵션)
-  window.addEventListener('beforeunload', () => {
-    if (Logger.logs.length > 0) {
-      localStorage.setItem('scratch-game-logs', Logger.exportLogs());
-    }
-  });
+  // 페이지 언로드시 로그 내보내기 (앱에서 처리)
+  // window.addEventListener('beforeunload', () => {
+  //   if (Logger.logs.length > 0) {
+  //     localStorage.setItem('scratch-game-logs', Logger.exportLogs());
+  //   }
+  // });
   
   Logger.info('Logger initialized in debug mode');
 }

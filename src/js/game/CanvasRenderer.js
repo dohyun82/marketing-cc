@@ -113,26 +113,22 @@ class CanvasRenderer {
     bgCtx.fillStyle = gradient;
     bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
     
-    // 경품 영역 표시 (중앙에 흰색 카드 모양)
-    const cardWidth = bgCanvas.width * 0.8;
-    const cardHeight = bgCanvas.height * 0.6;
-    const cardX = (bgCanvas.width - cardWidth) / 2;
-    const cardY = (bgCanvas.height - cardHeight) / 2;
+    // 전체 배경을 녹색으로 변경 (카드 형태 제거)
+    bgCtx.fillStyle = '#30B843';
+    bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
     
-    // 카드 그림자
-    bgCtx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-    bgCtx.fillRect(cardX + 4, cardY + 4, cardWidth, cardHeight);
-    
-    // 카드 배경
+    // 경품 텍스트 - 더 큰 폰트와 명확한 텍스트
     bgCtx.fillStyle = '#ffffff';
-    bgCtx.fillRect(cardX, cardY, cardWidth, cardHeight);
-    
-    // 경품 텍스트 (실제로는 동적으로 변경됨)
-    bgCtx.fillStyle = '#333333';
-    bgCtx.font = `${24 * this.pixelRatio}px Arial`;
+    bgCtx.font = `bold ${36 * this.pixelRatio}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
     bgCtx.textAlign = 'center';
     bgCtx.textBaseline = 'middle';
-    bgCtx.fillText('?', bgCanvas.width / 2, bgCanvas.height / 2);
+    
+    // 메인 텍스트
+    bgCtx.fillText('축하합니다!', bgCanvas.width / 2, bgCanvas.height / 2 - 30 * this.pixelRatio);
+    
+    // 부제목
+    bgCtx.font = `${24 * this.pixelRatio}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
+    bgCtx.fillText('1만원 상품권', bgCanvas.width / 2, bgCanvas.height / 2 + 30 * this.pixelRatio);
     
     this.backgroundImage = bgCanvas;
     
@@ -150,31 +146,14 @@ class CanvasRenderer {
     scratchCanvas.height = this.canvas.height;
     const scratchCtx = scratchCanvas.getContext('2d');
     
-    // 은색 스크래치 표면 생성
-    const scratchGradient = scratchCtx.createLinearGradient(0, 0, scratchCanvas.width, scratchCanvas.height);
-    scratchGradient.addColorStop(0, '#e8e8e8');
-    scratchGradient.addColorStop(0.5, '#c0c0c0');
-    scratchGradient.addColorStop(1, '#a8a8a8');
-    
-    scratchCtx.fillStyle = scratchGradient;
+    // 흰색 바탕에 검은색 테두리 스크래치 표면 생성
+    scratchCtx.fillStyle = '#ffffff';
     scratchCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
     
-    // 패턴 텍스처 추가
-    scratchCtx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-    for (let i = 0; i < scratchCanvas.width; i += 20) {
-      for (let j = 0; j < scratchCanvas.height; j += 20) {
-        if ((i + j) % 40 === 0) {
-          scratchCtx.fillRect(i, j, 10, 10);
-        }
-      }
-    }
-    
-    // 스크래치 안내 텍스트
-    scratchCtx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-    scratchCtx.font = `${18 * this.pixelRatio}px Arial`;
-    scratchCtx.textAlign = 'center';
-    scratchCtx.textBaseline = 'middle';
-    scratchCtx.fillText('긁어서 확인하세요!', scratchCanvas.width / 2, scratchCanvas.height / 2);
+    // 검은색 테두리 추가
+    scratchCtx.strokeStyle = '#000000';
+    scratchCtx.lineWidth = 2 * this.pixelRatio;
+    scratchCtx.strokeRect(0, 0, scratchCanvas.width, scratchCanvas.height);
     
     this.scratchSurface = scratchCanvas;
     
@@ -194,10 +173,10 @@ class CanvasRenderer {
     
     const scratchCtx = this.scratchSurface.getContext('2d');
     
-    // 픽셀 비율 조정
+    // 픽셀 비율 조정 및 감도 개선을 위한 반경 확대
     const scaledX = x * this.pixelRatio;
     const scaledY = y * this.pixelRatio;
-    const scaledRadius = radius * this.pixelRatio;
+    const scaledRadius = radius * this.pixelRatio * 1.5; // 1.5배 확대로 더 민감하게
     
     // 스크래치 영역을 투명하게 만들기
     scratchCtx.globalCompositeOperation = 'destination-out';

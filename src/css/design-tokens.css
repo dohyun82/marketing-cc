@@ -1,0 +1,238 @@
+/**
+ * 디자인 토큰 - Figma 디자인 시스템 기반
+ * 식권대장 브랜드 가이드라인 적용
+ */
+
+:root {
+  /* ===== 컬러 시스템 ===== */
+  
+  /* 기본 컬러 */
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+  --color-black-02: #464849;
+  --color-black-100: #000000;
+  --color-black-040: #000000;
+  
+  /* 그레이스케일 */
+  --color-gray-primary: #AFB3B8;
+  --color-gray-separator: #EDEDF2;
+  --color-gray-text: #AFB3B8;
+  
+  /* 브랜드 컬러 */
+  --color-primary: #212529;
+  --color-primary-text: #1A1E21;
+  --color-secondary: #AFB3B8;
+  
+  /* 상태 컬러 */
+  --color-success: #4CAF50;
+  --color-success-light: #E8F5E8;
+  --color-warning: #FF9800;
+  --color-error: #F44336;
+  --color-info: #2196F3;
+  
+  /* 스크래치 게임 전용 컬러 (Figma 기반) */
+  --color-scratch-bg: #B8C5D1;       /* Figma 배경색 */
+  --color-scratch-surface: #C0C0C0;
+  --color-scratch-surface-light: #E8E8E8;
+  --color-scratch-surface-dark: #A8A8A8;
+  --color-scratch-bg-from: #667eea;
+  --color-scratch-bg-to: #764ba2;
+  
+  /* Figma 스크래치 그라데이션 */
+  --gradient-scratch-mint: linear-gradient(135deg, rgba(152, 251, 152, 0.8), rgba(144, 238, 144, 0.6));
+  --gradient-scratch-pink: linear-gradient(45deg, rgba(255, 182, 193, 0.8), rgba(255, 192, 203, 0.6));
+  --gradient-scratch-yellow: linear-gradient(225deg, rgba(255, 255, 224, 0.8), rgba(255, 255, 192, 0.6));
+  --gradient-scratch-overlay: linear-gradient(135deg, 
+    rgba(152, 251, 152, 0.6) 0%, 
+    rgba(255, 182, 193, 0.6) 35%, 
+    rgba(255, 255, 224, 0.6) 70%, 
+    rgba(221, 160, 221, 0.5) 100%);
+  
+  /* ===== 타이포그래피 시스템 ===== */
+  
+  /* 폰트 패밀리 */
+  --font-family-primary: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-family-fallback: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  
+  /* 폰트 크기 */
+  --font-size-title-large: 24px;
+  --font-size-title-medium: 20px;
+  --font-size-title-small: 18px;
+  --font-size-body-large: 16px;
+  --font-size-body-medium: 15px;
+  --font-size-body-small: 14px;
+  --font-size-caption: 12px;
+  
+  /* 폰트 무게 */
+  --font-weight-bold: 700;
+  --font-weight-semibold: 600;
+  --font-weight-medium: 500;
+  --font-weight-regular: 400;
+  
+  /* 라인 높이 */
+  --line-height-title: 36px;
+  --line-height-subtitle: 28px;
+  --line-height-body: 24px;
+  --line-height-caption: 18px;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.6;
+  
+  /* ===== 스페이싱 시스템 ===== */
+  
+  /* 기본 스페이싱 (4px 기준) */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+  
+  /* 컴포넌트 스페이싱 */
+  --spacing-component-xs: 8px;
+  --spacing-component-sm: 12px;
+  --spacing-component-md: 16px;
+  --spacing-component-lg: 24px;
+  --spacing-component-xl: 32px;
+  
+  /* 레이아웃 스페이싱 */
+  --spacing-layout-xs: 16px;
+  --spacing-layout-sm: 24px;
+  --spacing-layout-md: 32px;
+  --spacing-layout-lg: 48px;
+  --spacing-layout-xl: 64px;
+  
+  /* ===== 보더 및 라디우스 ===== */
+  
+  /* 보더 라디우스 */
+  --border-radius-xs: 4px;
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 20px;
+  --border-radius-2xl: 24px;
+  --border-radius-full: 100px;
+  
+  /* 보더 두께 */
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-width-thick: 3px;
+  
+  /* ===== 그림자 시스템 ===== */
+  
+  /* 엘리베이션 */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+  
+  /* 컴포넌트 그림자 */
+  --shadow-button: 0 4px 16px rgba(102, 126, 234, 0.3);
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.3);
+  
+  /* ===== 레이아웃 시스템 ===== */
+  
+  /* 컨테이너 최대 크기 */
+  --container-mobile: 375px;
+  --container-tablet: 768px;
+  --container-desktop: 1200px;
+  
+  /* 브레이크포인트 */
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1200px;
+  
+  /* 컴포넌트 크기 */
+  --size-button-height: 48px;
+  --size-button-height-sm: 40px;
+  --size-button-height-lg: 56px;
+  
+  --size-input-height: 48px;
+  --size-input-height-sm: 40px;
+  --size-input-height-lg: 56px;
+  
+  /* 캔버스 크기 */
+  --canvas-width: 295px;
+  --canvas-height: 295px;
+  --canvas-max-width: 375px;
+  --canvas-max-height: 500px;
+  
+  /* ===== 애니메이션 시스템 ===== */
+  
+  /* 지속시간 */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-slower: 800ms;
+  
+  /* 이징 */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  /* ===== Z-INDEX 시스템 ===== */
+  
+  --z-base: 1;
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-popover: 500;
+  --z-tooltip: 600;
+  --z-toast: 700;
+  
+  /* ===== 투명도 시스템 ===== */
+  
+  --opacity-disabled: 0.38;
+  --opacity-inactive: 0.54;
+  --opacity-secondary: 0.74;
+  --opacity-primary: 0.87;
+  --opacity-high: 0.9;
+  --opacity-full: 1;
+}
+
+/* ===== 다크모드 지원 ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary: #FFFFFF;
+    --color-primary-text: #FFFFFF;
+    --color-secondary: #AFB3B8;
+    --color-gray-text: #AFB3B8;
+    
+    /* 배경색 조정 */
+    --color-scratch-bg-from: #4a5568;
+    --color-scratch-bg-to: #2d3748;
+  }
+}
+
+/* ===== 고대비 모드 지원 ===== */
+@media (prefers-contrast: high) {
+  :root {
+    --color-gray-primary: #666666;
+    --color-gray-separator: #999999;
+    
+    /* 보더 강화 */
+    --border-width-medium: 3px;
+    --border-width-thick: 4px;
+  }
+}
+
+/* ===== 모션 감소 설정 ===== */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 1ms;
+    --duration-normal: 1ms;
+    --duration-slow: 1ms;
+    --duration-slower: 1ms;
+    
+    --ease-bounce: linear;
+  }
+}

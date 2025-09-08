@@ -13,7 +13,13 @@
       "mcp__morphllm-fast-apply__create_directory",
       "Bash(mkdir:*)",
       "Bash(git reset:*)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(curl:*)",
+      "mcp__figma-dev-mode-mcp-server__get_image",
+      "mcp__serena__read_file",
+      "mcp__serena__replace_regex",
+      "mcp__serena__find_file",
+      "mcp__serena__search_for_pattern"
     ]
   },
   "enableAllProjectMcpServers": true,

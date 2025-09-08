@@ -1,17 +1,18 @@
-/* UI 컴포넌트 스타일 */
+/* ===== UI 컴포넌트 - Figma 디자인 시스템 적용 ===== */
 
-/* 모달 스타일 */
+/* ===== 모달 시스템 (Figma 기반) ===== */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1000;
+  z-index: var(--z-modal);
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition: opacity var(--duration-normal) var(--ease-out), 
+              visibility var(--duration-normal) var(--ease-out);
 }
 
 .modal.hidden {
@@ -32,26 +33,27 @@
 
 .modal-content {
   position: relative;
-  background: white;
-  border-radius: 20px;
-  padding: 2rem;
-  max-width: 320px;
-  width: 90%;
+  background: var(--color-white);
+  border-radius: var(--border-radius-xl);
+  padding: var(--spacing-layout-sm);
+  max-width: 343px;
+  width: calc(100% - var(--spacing-layout-xs) * 2);
   max-height: 80vh;
   overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-modal);
   transform: scale(0.9);
-  transition: transform 0.3s ease;
+  transition: transform var(--duration-normal) var(--ease-bounce);
 }
 
 .modal:not(.hidden) .modal-content {
   transform: scale(1);
 }
 
-/* 결과 모달 */
+/* ===== 결과 모달 (Figma 디자인) ===== */
 .result-content {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-md) 0;
 }
 
 .result-icon {
@@ -61,20 +63,24 @@
 }
 
 .result-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #333;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-title-medium);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-title);
+  color: var(--color-primary-text);
+  margin-bottom: var(--spacing-lg);
 }
 
 .result-reward {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #4CAF50;
-  background: linear-gradient(135deg, #E8F5E8, #F1F8E9);
-  padding: 1rem;
-  border-radius: 12px;
-  border: 2px solid #4CAF50;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-large);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-success);
+  background: var(--color-success-light);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  border: var(--border-width-medium) solid var(--color-success);
+  box-shadow: var(--shadow-sm);
 }
 
 .result-value {
@@ -85,16 +91,18 @@
 
 .confirm-button {
   width: 100%;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  padding: 1rem;
-  border-radius: 12px;
-  font-size: 1.125rem;
-  font-weight: 600;
+  height: var(--size-button-height);
+  background: linear-gradient(135deg, var(--color-scratch-bg-from), var(--color-scratch-bg-to));
+  color: var(--color-white);
+  padding: 0 var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-large);
+  font-weight: var(--font-weight-semibold);
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+  transition: all var(--duration-fast) var(--ease-out);
+  box-shadow: var(--shadow-button);
 }
 
 .confirm-button:hover {
@@ -120,52 +128,7 @@ button:focus {
   outline-offset: 2px;
 }
 
-/* 진행률 바 개선 */
-.progress-bar {
-  position: relative;
-  width: 100%;
-  height: 12px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
-  overflow: hidden;
-  margin-bottom: 0.75rem;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #4CAF50, #8BC34A, #CDDC39);
-  width: 0%;
-  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 6px;
-  position: relative;
-  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
-}
-
-.progress-fill::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, 
-    transparent 25%, 
-    rgba(255, 255, 255, 0.2) 25%, 
-    rgba(255, 255, 255, 0.2) 50%, 
-    transparent 50%, 
-    transparent 75%, 
-    rgba(255, 255, 255, 0.2) 75%);
-  background-size: 20px 20px;
-  animation: progress-stripe 1s linear infinite;
-}
-
-.progress-text {
-  font-size: 0.875rem;
-  font-weight: 500;
-  opacity: 0.9;
-  text-align: center;
-}
+/* 진행률 바는 웹 환경에서 제거됨 */
 
 /* 스크래치 가이드 개선 */
 .scratch-guide {
@@ -185,28 +148,78 @@ button:focus {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* 터치 피드백 */
+/* ===== Figma 스크래치 캔버스 스타일 (자연스러운 전환) ===== */
 .canvas-container {
   position: relative;
-  border-radius: 20px;
+  border-radius: var(--border-radius-lg);
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: transform var(--duration-fast) var(--ease-out);
 }
 
 .canvas-container:active {
-  transform: scale(0.98);
+  transform: scale(0.99);
+}
+
+/* 점진적 투명도 전환을 위한 클래스들 */
+.canvas-container.scratch-progress-10::before {
+  opacity: 0.9;
+  transition: opacity var(--duration-slow) var(--ease-out);
+}
+
+.canvas-container.scratch-progress-25::before {
+  opacity: 0.75;
+  transition: opacity var(--duration-slow) var(--ease-out);
+}
+
+.canvas-container.scratch-progress-50::before {
+  opacity: 0.5;
+  transition: opacity var(--duration-slow) var(--ease-out);
+}
+
+.canvas-container.scratch-progress-75::before {
+  opacity: 0.25;
+  transition: opacity var(--duration-slow) var(--ease-out);
+}
+
+.canvas-container.scratch-completed::before {
+  opacity: 0;
+  transition: opacity var(--duration-slower) var(--ease-out);
 }
 
 #scratch-canvas {
   display: block;
-  border-radius: 20px;
+  border-radius: var(--border-radius-lg);
   cursor: pointer;
   touch-action: none;
-  transition: filter 0.3s ease;
+  transition: filter var(--duration-normal) var(--ease-out);
+  background: transparent;
 }
 
 #scratch-canvas:hover {
   filter: brightness(1.05);
+}
+
+/* 스크래치 표면 레이어 효과 */
+.scratch-surface-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gradient-scratch-overlay);
+  border-radius: var(--border-radius-lg);
+  z-index: 2;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity var(--duration-slow) var(--ease-out);
+}
+
+.scratch-surface-layer.scratching {
+  opacity: 0.8;
+}
+
+.scratch-surface-layer.completed {
+  opacity: 0;
 }
 
 /* 로딩 스피너 개선 */
@@ -273,11 +286,8 @@ button:focus {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  background: linear-gradient(45deg, #fff, #f0f8ff);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--color-primary-text);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .event-description {

@@ -46,7 +46,17 @@
    */
   function validateConfiguration() {
     if (!window.CONFIG) {
-      throw new Error('CONFIG not found');
+      console.error('CONFIG not found - using defaults');
+      // 기본 설정 생성
+      window.CONFIG = {
+        EVENT: { ID: 'default-event' },
+        GAME: { SCRATCH_THRESHOLD: 50, TOUCH_RADIUS: 20 },
+        CANVAS: { MAX_WIDTH: 375, MAX_HEIGHT: 500 },
+        PERFORMANCE: { MAX_MEMORY_MB: 50 },
+        DEBUG: { ENABLED: true, LOG_LEVEL: 'INFO' },
+        ERROR: { BRIDGE_TIMEOUT: 15000 }
+      };
+      return;
     }
     
     // 필수 설정 확인

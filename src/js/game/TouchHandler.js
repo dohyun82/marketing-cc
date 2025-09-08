@@ -177,6 +177,9 @@ class TouchHandler {
     this.lastTouchTime = this.touchStartTime;
     this.touchPath = [{ x, y, timestamp: this.touchStartTime }];
     
+    // 가이드 텍스트 숨김 처리
+    this.hideGuideText();
+    
     // 첫 터치 지점 스크래치
     this.scratch(x, y);
     
@@ -204,8 +207,8 @@ class TouchHandler {
     const dy = y - this.lastTouch.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
     
-    // 최소 이동 거리 확인
-    if (distance < CONFIG.GAME.MIN_SCRATCH_AREA / 10) {
+    // 최소 이동 거리 확인 (더 민감하게)
+    if (distance < 1) { // 1px 이상만 이동해도 반응
       return;
     }
     
@@ -450,6 +453,19 @@ class TouchHandler {
     this.endDrawing();
     
     Logger.info('Touch simulation completed');
+  }
+
+  /**
+   * 가이드 텍스트 숨김 처리
+   * @private
+   */
+  hideGuideText() {
+    const guideElement = document.querySelector('.scratch-guide');
+    if (guideElement) {
+      guideElement.style.opacity = '0';
+      guideElement.style.visibility = 'hidden';
+      Logger.debug('Guide text hidden');
+    }
   }
 
   /**

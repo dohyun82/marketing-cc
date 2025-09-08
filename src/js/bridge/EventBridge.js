@@ -14,6 +14,22 @@ class EventBridge {
   }
 
   /**
+   * 안전한 로깅 (Logger가 없을 경우 대비)
+   * @private
+   */
+  safeLog(level, ...args) {
+    try {
+      if (window.Logger && typeof window.Logger[level] === 'function') {
+        window.Logger[level](...args);
+      } else {
+        console[level === 'info' ? 'log' : level]('[EventBridge]', ...args);
+      }
+    } catch (error) {
+      console.error('[EventBridge] Logging failed:', error);
+    }
+  }
+
+  /**
    * 브릿지 초기화
    * @private
    */
@@ -24,20 +40,20 @@ class EventBridge {
         this.bridgeType = 'ios';
         this.bridge = window.webkit.messageHandlers.gameInterface;
         this.initialized = true;
-        Logger.info('iOS WebKit bridge detected');
+        this.safeLog('info', 'iOS WebKit bridge detected');
       }
       // Android WebView 브릿지 감지
       else if (window.AndroidInterface) {
         this.bridgeType = 'android';
         this.bridge = window.AndroidInterface;
         this.initialized = true;
-        Logger.info('Android WebView bridge detected');
+        this.safeLog('info', 'Android WebView bridge detected');
       }
       // 브릿지가 없는 경우 (웹 브라우저 또는 개발 환경)
       else {
         this.bridgeType = 'mock';
         this.initializeMockBridge();
-        Logger.warn('No native bridge found, using mock bridge');
+        this.safeLog('warn', 'No native bridge found, using mock bridge');
       }
 
       // 메시지 리스너 등록
@@ -47,7 +63,7 @@ class EventBridge {
       this.processPendingCalls();
       
     } catch (error) {
-      Logger.error('Failed to initialize bridge:', error);
+      this.safeLog('error', 'Failed to initialize bridge:', error);
       this.bridgeType = 'mock';
       this.initializeMockBridge();
     }

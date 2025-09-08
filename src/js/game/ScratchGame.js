@@ -30,12 +30,28 @@ class ScratchGame {
   }
 
   /**
+   * 안전한 로깅 (Logger가 없을 경우 대비)
+   * @private
+   */
+  safeLog(level, ...args) {
+    try {
+      if (window.Logger && typeof window.Logger[level] === 'function') {
+        window.Logger[level](...args);
+      } else {
+        console[level === 'info' ? 'log' : level]('[ScratchGame]', ...args);
+      }
+    } catch (error) {
+      console.error('[ScratchGame] Logging failed:', error);
+    }
+  }
+
+  /**
    * 게임 초기화
    * @private
    */
   async initialize() {
     try {
-      Logger.gameEvent('game_initialize_start', { eventId: this.eventId });
+      this.safeLog('info', 'Game initialization starting...', { eventId: this.eventId });
       
       // UI 엘리먼트 바인딩
       this.bindElements();
@@ -56,12 +72,12 @@ class ScratchGame {
       this.gameState = 'ready';
       this.showGameScreen();
       
-      Logger.gameEvent('game_initialize_complete', {
+      this.safeLog('info', 'Game initialization completed successfully', {
         loadTime: performance.now() - this.performance.startTime
       });
       
     } catch (error) {
-      Logger.error('Game initialization failed:', error);
+      this.safeLog('error', 'Game initialization failed:', error);
       this.handleError('INIT_ERROR', error.message);
     }
   }
@@ -73,12 +89,12 @@ class ScratchGame {
   bindElements() {
     this.elements = {
       // 화면들
-      loadingScreen: document.getElementById('loading-screen'),
       gameScreen: document.getElementById('game-screen'),
       errorScreen: document.getElementById('error-screen'),
       
       // 게임 UI
       canvas: document.getElementById('scratch-canvas'),
+      canvasContainer: document.querySelector('.canvas-container'),
       eventTitle: document.querySelector('.event-title'),
       eventDescription: document.querySelector('.event-description'),
       progressBar: document.querySelector('.progress-fill'),
@@ -87,7 +103,7 @@ class ScratchGame {
       // 모달
       resultModal: document.getElementById('result-modal'),
       resultContent: document.querySelector('.result-content'),
-      confirmButton: document.querySelector('.confirm-button'),
+      confirmButton: document.getElementById('confirm-button'),
       
       // 에러 화면
       retryButton: document.querySelector('.retry-button')
@@ -116,10 +132,10 @@ class ScratchGame {
       });
     }
     
-    // 페이지 언로드 시 정리
-    window.addEventListener('beforeunload', () => {
-      this.cleanup();
-    });
+    // 페이지 언로드 시 정리는 앱에서 처리
+    // window.addEventListener('beforeunload', () => {
+    //   this.cleanup();
+    // });
     
     // 가시성 변경 감지 (백그라운드/포그라운드)
     document.addEventListener('visibilitychange', () => {
@@ -165,14 +181,27 @@ class ScratchGame {
    * @private
    */
   async checkCompatibility() {
+    // Canvas 지원 여부 확인 (가장 중요)
+    if (!CanvasRenderer.isSupported()) {
+      throw new Error('Canvas not supported in this browser');
+    }
+
+    // 필수 DOM 엘리먼트 확인
+    if (!this.elements.canvas) {
+      throw new Error('Canvas element not found');
+    }
+
     const deviceDetector = DeviceDetector.getInstance();
     const compatibility = deviceDetector.checkCompatibility();
     
     // 호환성 정보를 앱으로 전송
     try {
-      await this.eventBridge.sendDeviceInfo(deviceDetector.deviceInfo);
+      if (this.eventBridge) {
+        await this.eventBridge.sendDeviceInfo(deviceDetector.deviceInfo);
+      }
     } catch (error) {
-      Logger.warn('Failed to send device info:', error);
+      // 브릿지 에러는 치명적이지 않으므로 경고만 출력
+      this.safeLog('warn', 'Failed to send device info:', error);
     }
     
     // 치명적 호환성 문제 확인
@@ -363,12 +392,40 @@ class ScratchGame {
   updateProgressUI(progress) {
     const percentage = Math.round(progress);
     
+    // 기존 진행률 바 업데이트 (현재 숨김 상태)
     if (this.elements.progressBar) {
       this.elements.progressBar.style.width = `${percentage}%`;
     }
     
     if (this.elements.progressText) {
       this.elements.progressText.textContent = `${percentage}% 완료`;
+    }
+    
+    // Canvas 컨테이너에 점진적 클래스 적용
+    this.updateCanvasProgressClasses(percentage);
+  }
+
+  /**
+   * 진행률에 따른 Canvas 스타일 클래스 업데이트
+   * @private
+   */
+  updateCanvasProgressClasses(percentage) {
+    const container = this.elements.canvasContainer;
+    if (!container) return;
+    
+    // 기존 진행률 클래스 제거
+    const progressClasses = ['scratch-progress-10', 'scratch-progress-25', 'scratch-progress-50', 'scratch-progress-75', 'scratch-completed'];
+    progressClasses.forEach(cls => container.classList.remove(cls));
+    
+    // 진행률에 따른 클래스 적용 (자연스러운 단계별 전환)
+    if (percentage >= 75) {
+      container.classList.add('scratch-progress-75');
+    } else if (percentage >= 50) {
+      container.classList.add('scratch-progress-50');
+    } else if (percentage >= 25) {
+      container.classList.add('scratch-progress-25');
+    } else if (percentage >= 10) {
+      container.classList.add('scratch-progress-10');
     }
   }
 
@@ -389,6 +446,16 @@ class ScratchGame {
       
       // 터치 비활성화
       this.touchHandler.disable();
+      
+      // 완료 상태 클래스 적용 (자연스러운 페이드아웃)
+      if (this.elements.canvasContainer) {
+        // 기존 진행률 클래스 제거
+        const progressClasses = ['scratch-progress-10', 'scratch-progress-25', 'scratch-progress-50', 'scratch-progress-75'];
+        progressClasses.forEach(cls => this.elements.canvasContainer.classList.remove(cls));
+        
+        // 완료 클래스 적용
+        this.elements.canvasContainer.classList.add('scratch-completed');
+      }
       
       // 스크래치 표면 페이드아웃
       await this.canvasRenderer.fadeOutScratchSurface();
@@ -470,11 +537,25 @@ class ScratchGame {
   }
 
   /**
+   * 결과 모달 닫기
+   * @private
+   */
+  hideResultModal() {
+    if (this.elements.resultModal) {
+      this.elements.resultModal.classList.add('hidden');
+      Logger.debug('Result modal hidden');
+    }
+  }
+
+  /**
    * 결과 확인 처리
    * @private
    */
   async confirmResult() {
     try {
+      // 모달 닫기
+      this.hideResultModal();
+      
       await this.eventBridge.confirmResult(this.eventId, this.participationResult);
       
       Logger.gameEvent('result_confirmed', {
@@ -486,6 +567,8 @@ class ScratchGame {
       
     } catch (error) {
       Logger.error('Failed to confirm result:', error);
+      // 모달 닫기
+      this.hideResultModal();
       // 확인 실패해도 게임은 종료
       this.closeGame();
     }

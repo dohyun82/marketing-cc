@@ -17,24 +17,40 @@ class MockBridge {
    * @private
    */
   initializeMockData() {
-    this.eventData = {
-      'sample-event-001': {
-        eventId: 'sample-event-001',
-        title: '복권 긁기 이벤트',
-        description: '최대 10만원 상품권을 받아보세요!',
-        status: 'active',
-        startDate: '2025-09-01T00:00:00Z',
-        endDate: '2025-09-30T23:59:59Z',
-        participationLimit: 'ONCE_PER_DAY',
-        rewards: [
-          { id: 'reward-1', name: '10만원 상품권', value: 100000, probability: 1 },
-          { id: 'reward-2', name: '5만원 상품권', value: 50000, probability: 2 },
-          { id: 'reward-3', name: '1만원 상품권', value: 10000, probability: 10 },
-          { id: 'reward-4', name: '5천원 상품권', value: 5000, probability: 20 },
-          { id: 'reward-5', name: '꽝', value: 0, probability: 967 } // 96.7%
-        ]
-      }
+    // 기본 이벤트 데이터
+    const baseEventData = {
+      title: '복권 긁기 이벤트',
+      description: '최대 10만원 상품권을 받아보세요!',
+      status: 'active',
+      startDate: '2025-09-01T00:00:00Z',
+      endDate: '2025-09-30T23:59:59Z',
+      participationLimit: 'ONCE_PER_DAY',
+      rewards: [
+        { id: 'reward-1', name: '10만원 상품권', value: 100000, probability: 1 },
+        { id: 'reward-2', name: '5만원 상품권', value: 50000, probability: 2 },
+        { id: 'reward-3', name: '1만원 상품권', value: 10000, probability: 10 },
+        { id: 'reward-4', name: '5천원 상품권', value: 5000, probability: 20 },
+        { id: 'reward-5', name: '꽝', value: 0, probability: 967 } // 96.7%
+      ]
     };
+
+    // 여러 이벤트 ID 패턴을 지원하도록 설정
+    this.eventData = {};
+    
+    // 개발용 기본 이벤트들
+    const eventIds = [
+      'sample-event-001',
+      '{{EVENT_ID}}', // 템플릿 ID
+      'default-event', // 기본 이벤트 ID
+      'dev-test-event' // 개발 테스트용
+    ];
+    
+    eventIds.forEach(eventId => {
+      this.eventData[eventId] = {
+        ...baseEventData,
+        eventId: eventId
+      };
+    });
 
     this.participationHistory = new Map();
     this.currentUser = {

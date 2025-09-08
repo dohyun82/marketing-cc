@@ -8,46 +8,60 @@
     
     <!-- CSS 파일들 -->
     <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/design-tokens.css">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/responsive.css">
     
-    <!-- Preload 중요 리소스 -->
-    <link rel="preload" href="assets/images/scratch-bg.png" as="image">
-    <link rel="preload" href="assets/images/scratch-overlay.png" as="image">
+    <!-- Preload 중요 리소스 (배포시 추가) -->
+    <!-- <link rel="preload" href="assets/images/scratch-bg.png" as="image"> -->
+    <!-- <link rel="preload" href="assets/images/scratch-overlay.png" as="image"> -->
 </head>
 <body>
     <!-- 메인 게임 컨테이너 -->
     <div id="game-container">
-        <!-- 로딩 화면 -->
-        <div id="loading-screen" class="screen">
-            <div class="loading-content">
-                <div class="loading-spinner"></div>
-                <p class="loading-text">이벤트를 준비하고 있어요...</p>
-            </div>
-        </div>
-        
         <!-- 게임 화면 -->
-        <div id="game-screen" class="screen hidden">
-            <header class="game-header">
-                <h1 class="event-title">복권 긁기 이벤트</h1>
-                <p class="event-description">아래 복권을 손가락으로 긁어보세요!</p>
-            </header>
+        <div id="game-screen" class="screen">
             
+            <!-- 메인 콘텐츠 (Figma 구조 적용) -->
             <main class="game-main">
-                <div class="canvas-container">
-                    <canvas id="scratch-canvas"></canvas>
-                    <div class="scratch-guide">
-                        <p>↑ 손가락으로 긁어보세요</p>
+                <div class="game-content">
+                    <!-- 제목 영역 -->
+                    <div class="title-section">
+                        <p class="event-subtitle">이벤트제목 보여지는 곳 최대 20자</p>
+                        <h2 class="event-title">식권을 긁어보세요</h2>
+                    </div>
+                    
+                    <!-- 스크래치 영역 -->
+                    <div class="scratch-section">
+                        <div class="canvas-container">
+                            <canvas id="scratch-canvas"></canvas>
+                            <div class="scratch-guide">
+                                <p>여기를 긁어보세요</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="game-info">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-fill"></div>
+                <!-- 구분선 -->
+                <div class="content-separator"></div>
+                
+                <!-- 유의사항 영역 (Figma 디자인) -->
+                <div class="notice-section">
+                    <div class="notice-content">
+                        <h3 class="notice-title">유의사항</h3>
+                        <ul class="notice-list">
+                            <li>이벤트 등록 시 작성한 유의사항 문구가 보여지는 곳</li>
+                            <li>참여 제한 횟수에 대한 안내나 혜택에 대한 설명을 작성하실 수 있어요</li>
+                            <li>이벤트 참여 기간에 대한 안내도 넣을 수 있고요</li>
+                            <li>참여 제한 횟수에 대한 안내나 혜택에 대한 설명, 혜택의 일일 지급 한시에 대한 내용도 작성하실 수 있어요</li>
+                            <li>1등 - xx 프리미엄 세트 (1명), 2등 - xx 1박스 (3명), 3등 - 1,000 포인트 (5명), 4등 - 꽝 (그 외)</li>
+                            <li>그 외의 각종 유의사항에 대한 내용을 직접 그때 그때 마케팅팀에서 작성 가능하며 유의사항 내에 이미지를 넣을 수도 있습니다~ TEXT 타입이라 최대 글자 수는 약 16,000자 정도라 아주 여유있는 정도입니다.</li>
+                            <li>이벤트 특성에 따라 결제 후에만 또는 유의사항을 변동성이 크기 때에 다양한 작성되어 있는 것을 직접하지 않으며, 그때 그때 마케팅팀에서 작성하시는 방향으로 영향되고있습니다~~</li>
+                            <li>이벤트 등록 시, 유의사항 설정 도클을 미사용으로 설정하면 경우에는 해당 유의사항 영역이 아예 히든되용!</li>
+                        </ul>
                     </div>
-                    <p class="progress-text">진행률: 0%</p>
                 </div>
             </main>
         </div>
@@ -72,7 +86,7 @@
                 <div class="result-title">축하합니다!</div>
                 <div class="result-reward">1만원 상품권</div>
             </div>
-            <button class="confirm-button">확인</button>
+            <button id="confirm-button" class="confirm-button">확인</button>
         </div>
     </div>
     
