@@ -238,18 +238,19 @@
   height: 8px !important;
   background-color: #EDEDF2 !important;
   background: #EDEDF2 !important;
-  margin: var(--spacing-xl) 0 !important;
+  margin-top: var(--spacing-xl) !important;
+  margin-bottom: var(--spacing-xl) !important;
   display: block !important;
   position: relative !important;
   z-index: 10 !important;
   min-height: 8px !important;
   border: none !important;
-  box-sizing: border-box !important;
-  left: 50%;
-  right: 50%;
+  box-sizing: content-box !important;
+  /* 화면 전체 너비로 확장 */
+  left: 50% !important;
+  right: 50% !important;
   margin-left: -50vw !important;
   margin-right: -50vw !important;
-  transform: translateX(-50%);
 }
 
 .notice-section {
@@ -385,6 +386,7 @@
 .webview-mode .game-main {
   padding-left: var(--spacing-layout-xs);
   padding-right: var(--spacing-layout-xs);
+  overflow-x: visible !important;
 }
 
 .webview-mode .title-section,
@@ -398,15 +400,18 @@
   max-width: 100%;
 }
 
+/* 웹뷰에서 구분선 완전히 화면 끝까지 확장 */
 .webview-mode .content-separator {
-  width: 100vw !important;
-  margin: var(--spacing-xl) 0 !important;
+  width: 200vw !important;
+  margin-top: var(--spacing-xl) !important;
+  margin-bottom: var(--spacing-xl) !important;
   position: relative !important;
-  left: 50% !important;
-  right: 50% !important;
-  margin-left: -50vw !important;
-  margin-right: -50vw !important;
+  left: -50vw !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
   transform: none !important;
+  box-sizing: content-box !important;
+  background-color: #EDEDF2 !important;
 }
 
 /* iOS 웹뷰 특별 처리 */
