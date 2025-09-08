@@ -185,6 +185,10 @@
   transform: translate(-50%, -50%);
   z-index: 3;
   pointer-events: none;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .scratch-guide p {
@@ -194,6 +198,7 @@
   color: var(--color-primary-text);
   text-align: center;
   margin: 0;
+  padding: 0;
   text-shadow: none;
   letter-spacing: 0.2px;
   animation: pulse 2s ease-in-out infinite;
@@ -201,6 +206,8 @@
   transition: opacity var(--duration-slow) var(--ease-out);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  white-space: nowrap;
+  position: relative;
 }
 
 /* 스크래치 진행에 따른 가이드 텍스트 페이드아웃 */
@@ -222,17 +229,21 @@
 
 /* ===== 구분선 및 유의사항 영역 (Figma 디자인) ===== */
 .content-separator {
-  width: 100% !important;
+  width: 100vw !important;
   height: 8px !important;
   background-color: #EDEDF2 !important;
   background: #EDEDF2 !important;
-  margin: var(--spacing-xl) 0 !important;
+  margin: var(--spacing-xl) calc(50% - 50vw) !important;
   display: block !important;
   position: relative !important;
   z-index: 10 !important;
   min-height: 8px !important;
   border: none !important;
   box-sizing: border-box !important;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw !important;
+  margin-right: -50vw !important;
 }
 
 .notice-section {
@@ -382,9 +393,12 @@
 }
 
 .webview-mode .content-separator {
-  margin-left: calc(var(--spacing-layout-xs) * -1);
-  margin-right: calc(var(--spacing-layout-xs) * -1);
-  width: calc(100% + var(--spacing-layout-xs) * 2) !important;
+  width: 100% !important;
+  margin-left: calc(var(--spacing-layout-xs) * -1) !important;
+  margin-right: calc(var(--spacing-layout-xs) * -1) !important;
+  left: auto !important;
+  right: auto !important;
+  position: relative !important;
 }
 
 /* iOS 웹뷰 특별 처리 */
@@ -396,6 +410,25 @@
 /* Android 웹뷰 특별 처리 */
 .webview-android-webview #game-container {
   overflow-x: hidden !important;
+}
+
+/* 웹뷰에서 스크래치 가이드 완벽 중앙 정렬 */
+.webview-mode .scratch-guide {
+  width: 100% !important;
+  left: 50% !important;
+  right: auto !important;
+  text-align: center !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.webview-mode .scratch-guide p {
+  text-align: center !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  position: static !important;
 }
 
 /* 반응형 레이아웃 */

@@ -54,7 +54,7 @@ const CONFIG = {
     ENABLED: location.hostname === 'localhost' || location.hostname === '127.0.0.1',
     LOG_LEVEL: 'INFO',         // DEBUG, INFO, WARN, ERROR
     SHOW_PERFORMANCE: true,
-    SHOW_TOUCH_DEBUG: false,   // 터치 포인트 시각화
+    SHOW_TOUCH_DEBUG: location.hostname === 'localhost',   // 터치 포인트 시각화 (로컬에서 활성화)
     SHOW_PROGRESS_DEBUG: false // 진행률 디버그 정보
   },
 

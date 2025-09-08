@@ -316,13 +316,27 @@ class TouchHandler {
    */
   getTouchCoordinates(touch) {
     const rect = this.canvas.getBoundingClientRect();
-    const scaleX = this.canvas.width / rect.width;
-    const scaleY = this.canvas.height / rect.height;
     
-    return {
-      x: (touch.clientX - rect.left) * scaleX / window.devicePixelRatio,
-      y: (touch.clientY - rect.top) * scaleY / window.devicePixelRatio
-    };
+    // 웹뷰 환경에서는 간단한 좌표 계산 사용
+    if (document.body.classList.contains('webview-mode')) {
+      const x = (touch.clientX - rect.left) * (this.canvas.offsetWidth / rect.width);
+      const y = (touch.clientY - rect.top) * (this.canvas.offsetHeight / rect.height);
+      
+      Logger.logIf(CONFIG?.DEBUG?.SHOW_TOUCH_DEBUG, 'debug', 'WebView touch coordinates:', {
+        client: { x: touch.clientX, y: touch.clientY },
+        rect: { left: rect.left, top: rect.top, width: rect.width, height: rect.height },
+        canvas: { width: this.canvas.offsetWidth, height: this.canvas.offsetHeight },
+        result: { x, y }
+      });
+      
+      return { x, y };
+    }
+    
+    // 일반 브라우저에서는 devicePixelRatio 고려
+    const x = (touch.clientX - rect.left) * (this.canvas.width / window.devicePixelRatio) / rect.width;
+    const y = (touch.clientY - rect.top) * (this.canvas.height / window.devicePixelRatio) / rect.height;
+    
+    return { x, y };
   }
 
   /**
@@ -331,13 +345,20 @@ class TouchHandler {
    */
   getMouseCoordinates(event) {
     const rect = this.canvas.getBoundingClientRect();
-    const scaleX = this.canvas.width / rect.width;
-    const scaleY = this.canvas.height / rect.height;
     
-    return {
-      x: (event.clientX - rect.left) * scaleX / window.devicePixelRatio,
-      y: (event.clientY - rect.top) * scaleY / window.devicePixelRatio
-    };
+    // 웹뷰 환경에서는 간단한 좌표 계산 사용
+    if (document.body.classList.contains('webview-mode')) {
+      const x = (event.clientX - rect.left) * (this.canvas.offsetWidth / rect.width);
+      const y = (event.clientY - rect.top) * (this.canvas.offsetHeight / rect.height);
+      
+      return { x, y };
+    }
+    
+    // 일반 브라우저에서는 devicePixelRatio 고려
+    const x = (event.clientX - rect.left) * (this.canvas.width / window.devicePixelRatio) / rect.width;
+    const y = (event.clientY - rect.top) * (this.canvas.height / window.devicePixelRatio) / rect.height;
+    
+    return { x, y };
   }
 
   /**
